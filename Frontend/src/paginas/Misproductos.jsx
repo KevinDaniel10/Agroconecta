@@ -1,0 +1,105 @@
+import { useEffect, useState, useContext } from "react";
+import axios from "axios";
+import AuthContext from "../context/AuthProvider";
+import TratamientosContext from "../context/ProductoProvider";
+import Mensaje from "../componets/Alertas";
+
+const MisProductos = () => {
+  const { auth } = useContext(AuthContext);
+  const { handleDelete } = useContext(TratamientosContext);
+
+  const [productos, setProductos] = useState([]);
+  const [cargando, setCargando] = useState(true);
+  const [mensaje, setMensaje] = useState({});
+
+  useEffect(() => {
+    const obtenerProductos = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        const { data } = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/productos/mis-productos`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setProductos(data);
+      } catch (error) {
+        console.error(
+          "Error al obtener productos:",
+          error.response?.data?.msg || error.message
+        );
+      } finally {
+        setCargando(false);
+      }
+    };
+
+    obtenerProductos();
+  }, []);
+
+  // Manejador con confirmación y mensaje visual
+  const handleEliminarProducto = async (id, nombre) => {
+    if (window.confirm(`¿Eliminar el producto "${nombre}"?`)) {
+      await handleDelete(id);
+      setProductos((prev) => prev.filter((p) => p._id !== id));
+      setMensaje({ tipo: true, respuesta: `"${nombre}" eliminado con éxito.` });
+
+      setTimeout(() => setMensaje({}), 3000); // Limpia el mensaje
+    }
+  };
+
+  return (
+    <div className="p-6">
+      <h1 className="text-3xl font-bold text-gray-800 mb-4">Listar productos</h1>
+      <p className="mb-6 text-gray-600">
+        Este módulo te permite registrar y listar todos los productos registrados
+      </p>
+
+      {mensaje.respuesta && <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>}
+
+      {cargando ? (
+        <p className="text-gray-500">Cargando productos...</p>
+      ) : productos.length === 0 ? (
+        <p className="text-green-600 flex items-center gap-2">
+          <span className="text-xl">✔</span> No existen registros
+        </p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {productos.map((producto) => (
+            <div
+              key={producto._id}
+              className="bg-white shadow-md p-4 rounded-lg border"
+            >
+              <h3 className="text-xl font-semibold text-green-800">
+                {producto.nombre}
+              </h3>
+              <p className="text-gray-600">Precio: ${producto.precio}</p>
+              <p className="text-gray-600">
+                Stock: {producto.stock} {producto.unidad}
+              </p>
+              <p className="text-gray-600">Categoría: {producto.categoria}</p>
+              <p className="text-gray-600">Descripción: {producto.descripcion}</p>
+              {producto.imagen && (
+                <img
+                  src={`${import.meta.env.VITE_BACKEND_URL2}/uploads/${producto.imagen}`}
+                  alt={producto.nombre}
+                  className="mt-2 h-32 object-cover rounded"
+                />
+              )}
+
+              <button
+                onClick={() => handleEliminarProducto(producto._id, producto.nombre)}
+                className="mt-4 px-3 py-1 bg-red-600 text-white text-sm rounded hover:bg-red-800 transition"
+              >
+                Eliminar
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default MisProductos;
