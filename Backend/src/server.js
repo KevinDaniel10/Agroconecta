@@ -36,11 +36,11 @@ import routersSoporte from './routers/soporte_routes.js';
 import adminRoutes from './routers/admin_routes.js'
 
 // Rutas activas
-app.use('/api/cliente', routerClientes);
-app.use('/api/productor', routerProductores);
-app.use('/api/productos', routerProductos);
-app.use('/api/soporte', routersSoporte);
-app.use("/api/admin",adminRoutes)
+app.use('/cliente', routerClientes);
+app.use('/productor', routerProductores);
+app.use('/productos', routerProductos);
+app.use('/soporte', routersSoporte);
+app.use("/admin",adminRoutes)
 
 // Ruta no encontrada
 app.use((req, res) => res.status(404).send("Endpoint no encontrado - 404"));
