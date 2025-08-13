@@ -95,11 +95,10 @@ export const Forgot = () => {
 
       {/* Columna imagen: llena completamente su mitad, sin espacios */}
       <img
-        src="/src/assets/recuperaragro.png"
-        alt=""
-        className="hidden md:block w-full h-full object-cover"
-        aria-hidden="true"
-      />
+      className="mx-auto object-cover w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full border-4 border-slate-600"
+      src="/images/recuperaragro.png"
+      alt="Confirmación"
+    />
     </div>
   </>
 )
