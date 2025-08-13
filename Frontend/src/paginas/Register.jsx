@@ -226,7 +226,7 @@ return (
 
       {/* Columna imagen — llena COMPLETAMENTE su mitad (sin bordes blancos) */}
       <img
-        src="/src/assets/registroagro.png"
+        src="/registroagro.png"
         alt=""
         className="hidden md:block w-full h-full object-cover"
         aria-hidden="true"
