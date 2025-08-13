@@ -72,82 +72,83 @@ const FormularioPerfil = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto mt-6 px-4">
-      <div className="bg-white rounded-xl shadow-lg p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <h2 className="text-2xl font-bold text-green-800 mb-2">
-            Perfil del {auth?.rol === "cliente" ? "cliente" : "productor"}
-          </h2>
-          <p className="text-gray-600 mb-4">Edita tus datos personales</p>
+  <div className="max-w-4xl mx-auto mt-6 px-4">
+    <div className="bg-white rounded-xl shadow-lg p-6 sm:p-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Formulario (más angosto y centrado) */}
+      <form onSubmit={handleSubmit} className="space-y-4 w-full max-w-md md:max-w-sm lg:max-w-md mx-auto">
+        <h2 className="text-xl sm:text-2xl font-bold text-green-800 mb-1">
+          Perfil del {auth?.rol === "cliente" ? "cliente" : "productor"}
+        </h2>
+        <p className="text-gray-600 mb-3 sm:mb-4 text-sm sm:text-base">Edita tus datos personales</p>
 
-          {Object.keys(mensaje).length > 0 && (
-            <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
-          )}
+        {Object.keys(mensaje).length > 0 && (
+          <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
+        )}
 
-          {["nombre", "apellido", "direccion", "telefono"].map((campo, i) => (
-            <div key={i}>
-              <label className="block text-sm font-medium text-gray-700 uppercase">
-                {campo}:
-              </label>
-              <input
-                type="text"
-                name={campo}
-                value={form[campo]}
-                onChange={handleChange}
-                className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-green-500 focus:border-green-500"
-                placeholder={`Ingrese ${campo}`}
-              />
-            </div>
-          ))}
-
-          {/* Email no editable */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 uppercase">
-              Email:
+        {["nombre", "apellido", "direccion", "telefono"].map((campo, i) => (
+          <div key={i}>
+            <label className="block text-xs sm:text-sm font-medium text-gray-700 uppercase">
+              {campo}:
             </label>
             <input
-              type="email"
-              name="email"
-              value={form.email}
-              readOnly
-              className="mt-1 block w-full bg-gray-100 text-gray-500 border border-gray-300 rounded-md shadow-sm p-2 cursor-not-allowed"
+              type="text"
+              name={campo}
+              value={form[campo]}
+              onChange={handleChange}
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm sm:text-base focus:ring-green-500 focus:border-green-500"
+              placeholder={`Ingrese ${campo}`}
             />
           </div>
+        ))}
 
-          <div>
-            <button
-              type="submit"
-              className="bg-green-700 hover:bg-green-800 text-white w-full py-2 rounded-md font-semibold transition-all"
-            >
-              Actualizar
-            </button>
-          </div>
-        </form>
-
-        {/* Resumen visual */}
-        <div className="bg-gray-50 rounded-xl shadow p-6 flex flex-col items-center justify-center">
-          <img
-            src={
-              auth.rol === "cliente"
-                ? "https://cdn-icons-png.flaticon.com/512/2922/2922688.png"
-                : "https://cdn-icons-png.flaticon.com/512/921/921347.png"
-            }
-            alt="avatar"
-            className="w-24 h-24 rounded-full border-2 border-green-500 mb-4"
+        {/* Email no editable */}
+        <div>
+          <label className="block text-xs sm:text-sm font-medium text-gray-700 uppercase">
+            Email:
+          </label>
+          <input
+            type="email"
+            name="email"
+            value={form.email}
+            readOnly
+            className="mt-1 block w-full bg-gray-100 text-gray-500 border border-gray-300 rounded-md shadow-sm py-2 px-3 text-sm sm:text-base cursor-not-allowed"
           />
-          <div className="text-left space-y-2 text-sm text-gray-800">
-            <p><strong>Nombre:</strong> {form.nombre}</p>
-            <p><strong>Apellido:</strong> {form.apellido}</p>
-            <p><strong>Email:</strong> {form.email}</p>
-            <p><strong>Teléfono:</strong> {form.telefono}</p>
-            <p><strong>Dirección:</strong> {form.direccion}</p>
-            <p><strong>Rol:</strong> {auth.rol}</p>
-          </div>
+        </div>
+
+        <div>
+          <button
+            type="submit"
+            className="bg-green-700 hover:bg-green-800 text-white w-full py-2 rounded-md font-semibold transition-all"
+          >
+            Actualizar
+          </button>
+        </div>
+      </form>
+
+      {/* Resumen visual (ancho controlado y altura pegajosa en desktop) */}
+      <div className="bg-gray-50 rounded-xl shadow p-6 flex flex-col items-center justify-start md:sticky md:top-20 w-full max-w-sm mx-auto md:mx-0">
+        <img
+          src={
+            auth.rol === "cliente"
+              ? "https://cdn-icons-png.flaticon.com/512/2922/2922688.png"
+              : "https://cdn-icons-png.flaticon.com/512/921/921347.png"
+          }
+          alt="avatar"
+          className="w-20 h-20 sm:w-24 sm:h-24 rounded-full border-2 border-green-500 mb-4"
+        />
+        <div className="text-left space-y-2 text-sm sm:text-base text-gray-800 w-full">
+          <p><strong>Nombre:</strong> {form.nombre}</p>
+          <p><strong>Apellido:</strong> {form.apellido}</p>
+          <p className="break-all"><strong>Email:</strong> {form.email}</p>
+          <p><strong>Teléfono:</strong> {form.telefono}</p>
+          <p><strong>Dirección:</strong> {form.direccion}</p>
+          <p><strong>Rol:</strong> {auth.rol}</p>
         </div>
       </div>
     </div>
-  );
+  </div>
+);
+
 };
 
 export default FormularioPerfil;

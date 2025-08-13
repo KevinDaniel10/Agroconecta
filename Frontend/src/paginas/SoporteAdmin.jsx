@@ -61,87 +61,104 @@ const SoporteAdmin = () => {
     fetchMensajes();
   }, []);
 
-  return (
-    <div className="p-6">
-      <h2 className="text-2xl font-bold mb-4">📨 Mensajes de Soporte</h2>
+ return (
+  <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <h2 className="text-xl sm:text-2xl font-bold mb-4">📨 Mensajes de Soporte</h2>
 
-      {mensajes.length === 0 ? (
-        <p className="text-gray-500">No hay mensajes por mostrar.</p>
-      ) : (
-        <div className="space-y-4">
-          {mensajes.map((msg) => (
-            <div
-              key={msg._id}
-              className={`p-4 border rounded-xl shadow ${
-                msg.leido ? 'bg-gray-100' : 'bg-white'
-              }`}
-            >
-              <div className="flex justify-between items-center mb-2">
-                <p className="text-sm text-gray-500">
-                  De: <strong>{msg.usuario?.nombre} {msg.usuario?.apellido}</strong> ({msg.rol})
-                </p>
-                <p className="text-sm text-gray-400">{new Date(msg.createdAt).toLocaleString()}</p>
+    {mensajes.length === 0 ? (
+      <p className="text-gray-500 text-sm sm:text-base">No hay mensajes por mostrar.</p>
+    ) : (
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        {mensajes.map((msg) => (
+          <div
+            key={msg._id}
+            className={`p-4 sm:p-5 border rounded-2xl shadow ${
+              msg.leido ? "bg-gray-100" : "bg-white"
+            }`}
+          >
+            {/* Encabezado: remitente + fecha */}
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1 sm:gap-2 mb-2">
+              <p className="text-xs sm:text-sm text-gray-500">
+                De:{" "}
+                <strong>
+                  {msg.usuario?.nombre} {msg.usuario?.apellido}
+                </strong>{" "}
+                ({msg.rol})
+              </p>
+              <p className="text-xs sm:text-sm text-gray-400">
+                {new Date(msg.createdAt).toLocaleString()}
+              </p>
+            </div>
+
+            {/* Mensaje */}
+            <p className="text-gray-800 whitespace-pre-line mb-3 text-sm sm:text-base">
+              {msg.mensaje}
+            </p>
+
+            {/* Respuestas previas */}
+            {msg.respuestas?.length > 0 && (
+              <div className="mb-2 border-t pt-2">
+                <p className="text-xs sm:text-sm font-semibold text-green-700">Respuestas:</p>
+                {msg.respuestas.map((r, idx) => (
+                  <div key={idx} className="ml-2 text-xs sm:text-sm text-gray-700 mt-1">
+                    🟢 {r.mensaje}
+                  </div>
+                ))}
               </div>
+            )}
 
-              <p className="text-gray-800 whitespace-pre-line mb-3">{msg.mensaje}</p>
-
-              {msg.respuestas?.length > 0 && (
-                <div className="mb-2 border-t pt-2">
-                  <p className="text-sm font-semibold text-green-700">Respuestas:</p>
-                  {msg.respuestas.map((r, idx) => (
-                    <div key={idx} className="ml-2 text-sm text-gray-700 mt-1">🟢 {r.mensaje}</div>
-                  ))}
-                </div>
+            {/* Acciones */}
+            <div className="mt-3 flex flex-col sm:flex-row gap-2">
+              {!msg.leido && (
+                <button
+                  onClick={() => marcarLeido(msg._id)}
+                  className="w-full sm:w-auto text-sm bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600"
+                >
+                  Marcar como leído
+                </button>
               )}
 
-              <div className="mt-2 space-x-2">
-                {!msg.leido && (
-                  <button
-                    onClick={() => marcarLeido(msg._id)}
-                    className="text-sm bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
-                  >
-                    Marcar como leído
-                  </button>
-                )}
-
-                {!msg.solucionado && (
-                  <button
-                    onClick={() => marcarSolucionado(msg._id)}
-                    className="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                  >
-                    Marcar como solucionado
-                  </button>
-                )}
-              </div>
-
-              <div className="mt-3">
-                <textarea
-                  placeholder="Escribe una respuesta..."
-                  className="w-full border p-2 rounded text-sm"
-                  rows={2}
-                  value={respuestas[msg._id] || ""}
-                  onChange={(e) =>
-                    setRespuestas({ ...respuestas, [msg._id]: e.target.value })
-                  }
-                />
+              {!msg.solucionado && (
                 <button
-                  onClick={() => enviarRespuesta(msg._id)}
-                  className="mt-2 bg-purple-600 text-white px-3 py-1 rounded text-sm hover:bg-purple-700"
+                  onClick={() => marcarSolucionado(msg._id)}
+                  className="w-full sm:w-auto text-sm bg-green-500 text-white px-3 py-2 rounded hover:bg-green-600"
                 >
-                  Enviar respuesta
+                  Marcar como solucionado
                 </button>
-              </div>
-
-              <div className="mt-2 text-sm text-green-700 space-x-4">
-                {msg.leido && <span>✅ Leído</span>}
-                {msg.solucionado && <span>✔️ Solucionado</span>}
-              </div>
+              )}
             </div>
-          ))}
-        </div>
-      )}
-    </div>
-  );
+
+            {/* Responder */}
+            <div className="mt-3">
+              <textarea
+                placeholder="Escribe una respuesta..."
+                className="w-full border rounded-lg p-2 sm:p-3 text-sm sm:text-base focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-purple-600"
+                rows={2}
+                value={respuestas[msg._id] || ""}
+                onChange={(e) =>
+                  setRespuestas({ ...respuestas, [msg._id]: e.target.value })
+                }
+              />
+              <button
+                onClick={() => enviarRespuesta(msg._id)}
+                className="mt-2 w-full sm:w-auto bg-purple-600 text-white px-3 py-2 rounded text-sm sm:text-base hover:bg-purple-700"
+              >
+                Enviar respuesta
+              </button>
+            </div>
+
+            {/* Estados */}
+            <div className="mt-2 text-xs sm:text-sm text-green-700 flex flex-wrap gap-3">
+              {msg.leido && <span>✅ Leído</span>}
+              {msg.solucionado && <span>✔️ Solucionado</span>}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)
+
 };
 
 export default SoporteAdmin;

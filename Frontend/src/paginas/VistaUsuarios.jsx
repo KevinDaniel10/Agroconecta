@@ -49,60 +49,112 @@ const VistaUsuarios = () => {
     obtenerClientes();
   }, []);
 
-  return (
-    <div className="space-y-10">
-      {/* PRODUCTORES */}
-      <section>
-        <h2 className="text-xl font-bold text-green-800 mb-2">Productores</h2>
-        <table className="w-full bg-green-200 rounded overflow-hidden text-left">
+return (
+  <div className="space-y-10 px-4 sm:px-6 lg:px-8">
+    {/* PRODUCTORES */}
+    <section>
+      <h2 className="text-lg sm:text-xl font-bold text-green-800 mb-3">Productores</h2>
+
+      {/* Vista cards en móvil */}
+      <div className="md:hidden space-y-3">
+        {productores.map((prod) => (
+          <div
+            key={prod._id}
+            className="bg-white rounded-lg shadow border border-green-200 p-4 grid grid-cols-2 gap-x-4 gap-y-2"
+          >
+            <span className="text-xs font-semibold text-gray-500">Nombre</span>
+            <span className="text-sm text-gray-800">{prod.nombre}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Apellido</span>
+            <span className="text-sm text-gray-800">{prod.apellido}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Teléfono</span>
+            <span className="text-sm text-gray-800 whitespace-nowrap">{prod.telefono}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Email</span>
+            <span className="text-sm text-gray-800 break-all">{prod.email}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabla en ≥ md con scroll horizontal si hace falta */}
+      <div className="hidden md:block overflow-x-auto rounded-lg ring-1 ring-green-200">
+        <table className="min-w-full bg-green-50 text-left">
           <thead className="bg-green-700 text-white">
             <tr>
-              <th className="px-4 py-2">Nombre</th>
-              <th className="px-4 py-2">Apellido</th>
-              <th className="px-4 py-2">Telefono</th>
-              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2 text-sm font-semibold">Nombre</th>
+              <th className="px-4 py-2 text-sm font-semibold">Apellido</th>
+              <th className="px-4 py-2 text-sm font-semibold">Teléfono</th>
+              <th className="px-4 py-2 text-sm font-semibold">Email</th>
             </tr>
           </thead>
           <tbody>
             {productores.map((prod) => (
-              <tr key={prod._id} className="hover:bg-green-100">
+              <tr key={prod._id} className="odd:bg-white even:bg-green-100/40 hover:bg-green-100">
                 <td className="px-4 py-2">{prod.nombre}</td>
                 <td className="px-4 py-2">{prod.apellido}</td>
-                <td className="px-4 py-2">{prod.telefono}</td>
-                <td className="px-4 py-2">{prod.email}</td>
+                <td className="px-4 py-2 whitespace-nowrap">{prod.telefono}</td>
+                <td className="px-4 py-2 break-all">{prod.email}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </section>
+      </div>
+    </section>
 
-      {/* CLIENTES */}
-      <section>
-        <h2 className="text-xl font-bold text-green-800 mb-2">Clientes</h2>
-        <table className="w-full bg-green-200 rounded overflow-hidden text-left">
+    {/* CLIENTES */}
+    <section>
+      <h2 className="text-lg sm:text-xl font-bold text-green-800 mb-3">Clientes</h2>
+
+      {/* Vista cards en móvil */}
+      <div className="md:hidden space-y-3">
+        {clientes.map((cli) => (
+          <div
+            key={cli._id}
+            className="bg-white rounded-lg shadow border border-green-200 p-4 grid grid-cols-2 gap-x-4 gap-y-2"
+          >
+            <span className="text-xs font-semibold text-gray-500">Nombre</span>
+            <span className="text-sm text-gray-800">{cli.nombre}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Apellido</span>
+            <span className="text-sm text-gray-800">{cli.apellido}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Teléfono</span>
+            <span className="text-sm text-gray-800 whitespace-nowrap">{cli.telefono}</span>
+
+            <span className="text-xs font-semibold text-gray-500">Email</span>
+            <span className="text-sm text-gray-800 break-all">{cli.email}</span>
+          </div>
+        ))}
+      </div>
+
+      {/* Tabla en ≥ md con scroll horizontal si hace falta */}
+      <div className="hidden md:block overflow-x-auto rounded-lg ring-1 ring-green-200">
+        <table className="min-w-full bg-green-50 text-left">
           <thead className="bg-green-700 text-white">
             <tr>
-              <th className="px-4 py-2">Nombre</th>
-              <th className="px-4 py-2">Apellido</th>
-              <th className="px-4 py-2">Telefono</th>
-              <th className="px-4 py-2">Email</th>
+              <th className="px-4 py-2 text-sm font-semibold">Nombre</th>
+              <th className="px-4 py-2 text-sm font-semibold">Apellido</th>
+              <th className="px-4 py-2 text-sm font-semibold">Teléfono</th>
+              <th className="px-4 py-2 text-sm font-semibold">Email</th>
             </tr>
           </thead>
           <tbody>
             {clientes.map((cli) => (
-              <tr key={cli._id} className="hover:bg-green-100">
+              <tr key={cli._id} className="odd:bg-white even:bg-green-100/40 hover:bg-green-100">
                 <td className="px-4 py-2">{cli.nombre}</td>
                 <td className="px-4 py-2">{cli.apellido}</td>
-                <td className="px-4 py-2">{cli.telefono}</td>
-                <td className="px-4 py-2">{cli.email}</td>
-
+                <td className="px-4 py-2 whitespace-nowrap">{cli.telefono}</td>
+                <td className="px-4 py-2 break-all">{cli.email}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </section>
-    </div>
-  );
+      </div>
+    </section>
+  </div>
+)
+
 };
 
 export default VistaUsuarios;

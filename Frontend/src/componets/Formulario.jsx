@@ -84,26 +84,29 @@ export const Formulario = ({ producto }) => {
     }
   };
 
-  return (
-    <form
-      onSubmit={handleSubmit}
-      className="max-w-3xl mx-auto bg-white p-8 shadow-lg rounded-xl space-y-6"
-      encType="multipart/form-data"
-    >
-      <h2 className="text-2xl font-bold text-green-800 text-center">Registrar producto</h2>
+ return (
+  <form
+    onSubmit={handleSubmit}
+    className="w-full max-w-xl sm:max-w-2xl lg:max-w-3xl mx-auto bg-white p-4 sm:p-6 lg:p-8 shadow-lg rounded-xl space-y-5 sm:space-y-6"
+    encType="multipart/form-data"
+  >
+    <h2 className="text-xl sm:text-2xl font-bold text-green-800 text-center">
+      Registrar producto
+    </h2>
 
-      {Object.keys(mensaje).length > 0 && (
-        <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
-      )}
+    {Object.keys(mensaje).length > 0 && (
+      <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
+    )}
 
-      {/* Campos de texto */}
-      {[ 
+    {/* Campos de texto: 1 col en móvil, 2 cols desde sm */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      {[
         { name: "nombre", label: "Nombre del producto", placeholder: "Ej: Queso artesanal" },
         { name: "precio", label: "Precio ($)", type: "number", placeholder: "Ej: 4.50" },
         { name: "stock", label: "Stock disponible", type: "number", placeholder: "Ej: 25" }
       ].map(({ name, label, type, placeholder }) => (
-        <div key={name}>
-          <label htmlFor={name} className="block font-semibold text-gray-700 mb-1">
+        <div key={name} className="sm:col-span-1">
+          <label htmlFor={name} className="block text-sm font-semibold text-gray-700 mb-1">
             {label}:
           </label>
           <input
@@ -113,14 +116,16 @@ export const Formulario = ({ producto }) => {
             value={form[name]}
             onChange={handleChange}
             placeholder={placeholder}
-            className="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:outline-none"
+            className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm sm:text-base focus:ring-green-500 focus:border-green-500 focus:outline-none"
           />
         </div>
       ))}
+    </div>
 
-      {/* Select: unidad */}
+    {/* Selects: en dos columnas desde sm */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div>
-        <label htmlFor="unidad" className="block font-semibold text-gray-700 mb-1">
+        <label htmlFor="unidad" className="block text-sm font-semibold text-gray-700 mb-1">
           Unidad de medida:
         </label>
         <select
@@ -128,7 +133,7 @@ export const Formulario = ({ producto }) => {
           name="unidad"
           value={form.unidad}
           onChange={handleChange}
-          className="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:outline-none"
+          className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm sm:text-base focus:ring-green-500 focus:border-green-500 focus:outline-none"
         >
           <option value="">-- Selecciona unidad --</option>
           <option value="Kilogramo (kg)">Kilogramo (kg)</option>
@@ -140,9 +145,8 @@ export const Formulario = ({ producto }) => {
         </select>
       </div>
 
-      {/* Select: categoría */}
       <div>
-        <label htmlFor="categoria" className="block font-semibold text-gray-700 mb-1">
+        <label htmlFor="categoria" className="block text-sm font-semibold text-gray-700 mb-1">
           Categoría:
         </label>
         <select
@@ -150,7 +154,7 @@ export const Formulario = ({ producto }) => {
           name="categoria"
           value={form.categoria}
           onChange={handleChange}
-          className="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:outline-none"
+          className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm sm:text-base focus:ring-green-500 focus:border-green-500 focus:outline-none"
         >
           <option value="">-- Selecciona categoría --</option>
           <option value="Verduras">Verduras</option>
@@ -158,54 +162,56 @@ export const Formulario = ({ producto }) => {
           <option value="Frutas">Frutas</option>
           <option value="Carnes">Carnes</option>
           <option value="Granos">Cereales</option>
-           <option value="Otros">Otros</option>
+          <option value="Otros">Otros</option>
         </select>
       </div>
+    </div>
 
-      {/* Textarea descripción */}
-      <div>
-        <label htmlFor="descripcion" className="block font-semibold text-gray-700 mb-1">
-          Descripción:
-        </label>
-        <textarea
-          id="descripcion"
-          name="descripcion"
-          value={form.descripcion}
-          onChange={handleChange}
-          placeholder="Ej: Producto fresco cultivado sin químicos..."
-          className="w-full border border-gray-300 rounded-md p-2 focus:ring-green-500 focus:outline-none"
-          rows="3"
+    {/* Descripción */}
+    <div>
+      <label htmlFor="descripcion" className="block text-sm font-semibold text-gray-700 mb-1">
+        Descripción:
+      </label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        value={form.descripcion}
+        onChange={handleChange}
+        placeholder="Ej: Producto fresco cultivado sin químicos..."
+        className="w-full border border-gray-300 rounded-md py-2 px-3 text-sm sm:text-base focus:ring-green-500 focus:border-green-500 focus:outline-none"
+        rows="3"
+      />
+    </div>
+
+    {/* Imagen + preview responsiva */}
+    <div>
+      <label htmlFor="imagen" className="block text-sm font-semibold text-gray-700 mb-1">
+        Imagen del producto (opcional):
+      </label>
+      <input
+        type="file"
+        id="imagen"
+        name="imagen"
+        accept="image/*"
+        onChange={handleChange}
+        className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-green-100 file:text-green-700 hover:file:bg-green-200"
+      />
+      {imagenPreview && (
+        <img
+          src={imagenPreview}
+          alt="Vista previa"
+          className="mt-3 sm:mt-4 h-28 sm:h-32 w-full max-w-xs object-cover rounded-md"
         />
-      </div>
+      )}
+    </div>
 
-      {/* Imagen */}
-      <div>
-        <label htmlFor="imagen" className="block font-semibold text-gray-700 mb-1">
-          Imagen del producto (opcional):
-        </label>
-        <input
-          type="file"
-          id="imagen"
-          name="imagen"
-          accept="image/*"
-          onChange={handleChange}
-          className="w-full text-sm text-gray-600 file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:bg-green-100 file:text-green-700 hover:file:bg-green-200"
-        />
-        {imagenPreview && (
-          <img
-            src={imagenPreview}
-            alt="Vista previa"
-            className="mt-4 h-32 object-cover rounded-md"
-          />
-        )}
-      </div>
+    <button
+      type="submit"
+      className="w-full bg-green-700 hover:bg-green-800 text-white py-2.5 rounded-md font-semibold text-base transition-colors"
+    >
+      {producto?._id ? "Actualizar producto" : "Registrar producto"}
+    </button>
+  </form>
+)
 
-      <button
-        type="submit"
-        className="w-full bg-green-700 hover:bg-green-800 text-white py-2 rounded-md font-bold text-lg transition"
-      >
-        {producto?._id ? "Actualizar producto" : "Registrar producto"}
-      </button>
-    </form>
-  );
 };
