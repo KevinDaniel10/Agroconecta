@@ -225,12 +225,8 @@ return (
       </div>
 
       {/* Columna imagen — llena COMPLETAMENTE su mitad (sin bordes blancos) */}
-      <img
-        src="/public/images/registroagro.png"
-        alt=""
-        className="hidden md:block w-full h-full object-cover"
-        aria-hidden="true"
-      />
+     <div className="hidden md:block w-full h-full bg-[url('/images/registroagro.png')] bg-cover bg-center"></div>
+
     </div>
   </>
 )
