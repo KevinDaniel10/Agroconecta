@@ -39,11 +39,12 @@ export const Confirmar = () => {
         <Mensaje tipo={mensaje.tipo}>{mensaje.respuesta}</Mensaje>
       )}
 
-      <img
-        className="mx-auto object-cover w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full border-4 border-slate-600"
-         src="/src/assets/recuperaragro.png"
-        alt="Confirmación"
-      />
+        <img
+      className="mx-auto object-cover w-40 h-40 sm:w-56 sm:h-56 md:w-64 md:h-64 rounded-full border-4 border-slate-600"
+      src="/images/recuperaragro.png"
+      alt="Confirmación"
+    />
+
 
       <div className="mt-8 sm:mt-10">
         <p className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800">¡Muchas gracias!</p>
