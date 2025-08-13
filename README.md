@@ -10,4 +10,4 @@ Para ejecutar el sistema localmente, se deben seguir los siguientes pasos:
 
 El frontend se ejecutará en http://localhost:5173 y el backend en http://localhost:4000, por defecto.
 
-Este proyecto está desplegado en línea usando Vercel (para el frontend) y Render (para el backend). No se deben subir credenciales privadas al repositorio.
+Este proyecto está desplegado en línea usando Vercel (para el frontend) https://agroconecta-beta.vercel.app/ y Render (para el backend) https://agroconecta-1.onrender.com . No se deben subir credenciales privadas al repositorio.
